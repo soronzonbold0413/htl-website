@@ -1,3 +1,4 @@
+import { asset } from '../router.js'
 import { projects } from '../data.js'
 
 export default function Projects({ onOpen }) {
@@ -32,8 +33,8 @@ export default function Projects({ onOpen }) {
             </div>
             <div className={`gallery rv${p.layout === 'grid' ? '' : ' ' + p.layout}`}>
               {p.images.map(([src, alt], i) => (
-                <button key={src} className={i === 0 ? 'big' : ''} onClick={() => onOpen(p.images, i)}>
-                  <img src={src} alt={alt} loading="lazy" />
+                <button key={src} className={i === 0 ? 'big' : ''} onClick={() => onOpen(p.images.map(([s, a]) => [asset(s), a]), i)}>
+                  <img src={asset(src)} alt={alt} loading="lazy" />
                 </button>
               ))}
             </div>

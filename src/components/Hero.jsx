@@ -1,3 +1,4 @@
+import { asset } from '../router.js'
 import { useEffect, useRef, useState } from 'react'
 import { hero } from '../data.js'
 import { prefersReducedMotion } from '../motion.js'
@@ -32,8 +33,8 @@ export default function Hero() {
       <div className="hero-media">
         <video
           ref={vid}
-          src={src}
-          poster={hero.video.poster}
+          src={asset(src)}
+          poster={asset(hero.video.poster)}
           autoPlay
           muted
           loop

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # HTL Hi Tech Lab website
 
 React + Vite source code for the HTL company website.
@@ -54,7 +53,3 @@ Run `npm run build` and upload the **contents** of `dist/` to the `public_html` 
 | Replace partner logos | `public/logos/1.png … 21.png` (order = importance) |
 | Background video | replace `public/video/intro-1080.mp4` and `intro-720.mp4` |
 | Colors | `:root` block at the top of `src/styles.css` |
-=======
-# htl-website
-HTL website development
->>>>>>> 7b4509fd729dfe48f4226a01b08241cbc1b49d9a

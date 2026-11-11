@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { about } from '../data.js'
 import { prefersReducedMotion } from '../motion.js'
+import { go, pageHref } from '../router.js'
 
 function CountUp({ to, start }) {
   const [n, setN] = useState(to)
@@ -22,13 +23,13 @@ function CountUp({ to, start }) {
 
 export default function About() {
   const ref = useRef(null)
-  const [go, setGo] = useState(false)
+  const [started, setStarted] = useState(false)
 
   useEffect(() => {
     const io = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) {
-          setGo(true)
+          setStarted(true)
           io.disconnect()
         }
       },
@@ -58,17 +59,26 @@ export default function About() {
             </span>
           </div>
         </div>
-        <div className={`stats rv${go ? ' go' : ''}`} ref={ref}>
-          {about.stats.map((s) => (
-            <div className="stat" key={s.label}>
-              <div className="num">
-                <CountUp to={s.value} start={go} />
-                <sup>{s.suffix}</sup>
+        <div className="stats-col">
+          <div className={`stats rv${started ? ' go' : ''}`} ref={ref}>
+            {about.stats.map((s) => (
+              <div className="stat" key={s.label}>
+                <div className="num">
+                  <CountUp to={s.value} start={started} />
+                  <sup>{s.suffix}</sup>
+                </div>
+                <div className="lbl">{s.label}</div>
+                <i className="bar" />
               </div>
-              <div className="lbl">{s.label}</div>
-              <i className="bar" />
-            </div>
-          ))}
+            ))}
+          </div>
+          <a className="about-more rv" href={pageHref('about')} onClick={(e) => go(e, 'about')}>
+            <span>
+              <b>About us</b>
+              <small>Licenses and engineering team</small>
+            </span>
+            <span className="ar" aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
     </section>

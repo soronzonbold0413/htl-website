@@ -1,3 +1,4 @@
+import { asset } from '../router.js'
 import { partnerLogos, featuredPartnerCount } from '../data.js'
 
 export default function Partners() {
@@ -13,7 +14,7 @@ export default function Partners() {
         <div className="tier1 rv">
           {featured.map((src) => (
             <div className="logo-cell" key={src}>
-              <img src={src} alt="Client logo" loading="lazy" />
+              <img src={asset(src)} alt="Client logo" loading="lazy" />
             </div>
           ))}
         </div>
@@ -23,7 +24,7 @@ export default function Partners() {
           {[0, 1].map((copy) =>
             rest.map((src) => (
               <div className="logo-cell" key={copy + src} aria-hidden={copy === 1 ? 'true' : undefined}>
-                <img src={src} alt={copy === 1 ? '' : 'Client logo'} loading="lazy" />
+                <img src={asset(src)} alt={copy === 1 ? '' : 'Client logo'} loading="lazy" />
               </div>
             ))
           )}
