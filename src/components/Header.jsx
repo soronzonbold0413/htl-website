@@ -1,12 +1,25 @@
 import { useEffect, useState } from 'react'
-import { nav } from '../data.js'
-import { asset, go, pageHref, sectionHref } from '../router.js'
+import { nav, services, projects } from '../data.js'
+import { asset, go, pageHref, sectionHref, servicePage, projectPage } from '../router.js'
+
+const menuServices = services.map((x, i) => ({
+  page: servicePage(x.slug),
+  kicker: `0${i + 1} · ${x.code}`,
+  label: x.title,
+}))
+const menuProjects = projects.map((p) => ({
+  page: projectPage(p.slug),
+  kicker: p.eyebrow,
+  label: p.title,
+  img: (p.images.find(([, , f]) => f !== 'contain') || p.images[0])[0],
+}))
 
 export default function Header({ page }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width:860px)').matches)
   const [active, setActive] = useState('')
+  const [shut, setShut] = useState('') // dropdown closed after a click, until the cursor leaves it
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -56,7 +69,12 @@ export default function Header({ page }) {
     return {
       // Contact is on every page, so that link always stays on the current page
       href: page === 'home' || item.section === '#contact' ? item.section : sectionHref(item.section),
-      className: active === item.section ? 'active' : '',
+      className:
+        active === item.section ||
+        (item.section === '#projects' && page.startsWith('project/')) ||
+        (item.section === '#services' && page.startsWith('service/'))
+          ? 'active'
+          : '',
       onClick: (e) => {
         setOpen(false)
         if (page !== 'home' && item.section !== '#contact') go(e, 'home', item.section)
@@ -75,11 +93,43 @@ export default function Header({ page }) {
           {open ? 'Close' : 'Menu'}
         </button>
         <nav className={`links${isMobile && !open ? ' closed' : ''}`} id="links">
-          {nav.map((item) => (
-            <a key={item.label} {...linkProps(item)}>
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item) =>
+            item.menu ? (
+              <div className={`dd${shut === item.menu ? ' shut' : ''}`} key={item.label} onMouseLeave={() => setShut('')}>
+                <a {...linkProps(item)} aria-haspopup="true">
+                  {item.label}
+                  <svg className="dd-caret" viewBox="0 0 10 6" aria-hidden="true">
+                    <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                  </svg>
+                </a>
+                <div className={`dd-panel dd-${item.menu}`}>
+                  {(item.menu === 'services' ? menuServices : menuProjects).map((m) => (
+                    <a
+                      key={m.page}
+                      href={pageHref(m.page)}
+                      className={page === m.page ? 'current' : ''}
+                      onClick={(e) => {
+                        setOpen(false)
+                        setShut(item.menu)
+                        e.currentTarget.blur()
+                        go(e, m.page)
+                      }}
+                    >
+                      {m.img && <img src={asset(m.img)} alt="" loading="lazy" />}
+                      <span>
+                        <small>{m.kicker}</small>
+                        <b>{m.label}</b>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a key={item.label} {...linkProps(item)}>
+                {item.label}
+              </a>
+            )
+          )}
           <a {...linkProps({ section: '#contact' })} className="cta">
             Contact us
           </a>

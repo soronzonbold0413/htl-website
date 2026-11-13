@@ -1,4 +1,4 @@
-import { asset } from '../router.js'
+import { asset, go, pageHref, projectPage } from '../router.js'
 import { projects } from '../data.js'
 
 export default function Projects({ onOpen }) {
@@ -30,11 +30,20 @@ export default function Projects({ onOpen }) {
                 ))}
               </dl>
               <p className="desc">{p.text}</p>
+              <a
+                className="proj-more"
+                href={pageHref(projectPage(p.slug))}
+                onClick={(e) => go(e, projectPage(p.slug))}
+              >
+                <span>View project details</span>
+                <span className="ar" aria-hidden="true">→</span>
+              </a>
             </div>
             <div className={`gallery rv${p.layout === 'grid' ? '' : ' ' + p.layout}`}>
-              {p.images.map(([src, alt], i) => (
+              {p.images.map(([src, alt, fit], i) => (
                 <button key={src} className={i === 0 ? 'big' : ''} onClick={() => onOpen(p.images.map(([s, a]) => [asset(s), a]), i)}>
-                  <img src={asset(src)} alt={alt} loading="lazy" />
+                  {/* third value 'contain' shows the whole image (for graphics) instead of cropping it */}
+                  <img src={asset(src)} alt={alt} loading="lazy" className={fit === 'contain' ? 'fit-contain' : undefined} />
                 </button>
               ))}
             </div>

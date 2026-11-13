@@ -1,3 +1,4 @@
+import Mascot from './Mascot.jsx'
 import { useState } from 'react'
 import { contact } from '../data.js'
 
@@ -35,10 +36,13 @@ export default function Contact() {
             Call or email us and an engineer will get back to you. Visitors are welcome at our office in Sukhbaatar
             district.
           </p>
-          <div className="btns">
-            <a className="btn red" href={contact.mapUrl} target="_blank" rel="noopener noreferrer">
-              Open in Google Maps <span className="ar">↗</span>
-            </a>
+          <div className="contact-cta">
+            <div className="btns">
+              <a className="btn red" href={contact.mapUrl} target="_blank" rel="noopener noreferrer">
+                Open in Google Maps <span className="ar">↗</span>
+              </a>
+            </div>
+            <Mascot pose="thumbs-up" />
           </div>
         </div>
         <div className="cards rv">

@@ -1,6 +1,6 @@
-import { asset } from '../router.js'
+import { asset, go, pageHref, servicePage } from '../router.js'
 import { useEffect, useRef, useState } from 'react'
-import { hero } from '../data.js'
+import { hero, services } from '../data.js'
 import { prefersReducedMotion } from '../motion.js'
 
 export default function Hero() {
@@ -71,9 +71,10 @@ export default function Hero() {
       </div>
       <nav className="hero-bar" aria-label="Services">
         <div className="wrap">
-          {hero.bar.map((b) => (
-            <a key={b.label} href={b.href}>
-              <b>{b.num}</b> {b.label}
+          {/* one link per service, opening its page */}
+          {services.map((x) => (
+            <a key={x.slug} href={pageHref(servicePage(x.slug))} onClick={(e) => go(e, servicePage(x.slug))}>
+              {x.short || x.title}
             </a>
           ))}
         </div>

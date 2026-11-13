@@ -1,3 +1,5 @@
-# Apache / cPanel hosting: send /about to the React app
+# Apache / cPanel hosting: send page addresses to the React app
 RewriteEngine On
 RewriteRule ^about/?$ index.html [L]
+RewriteRule ^projects/[^/]+/?$ index.html [L]
+RewriteRule ^services/[^/]+/?$ index.html [L]

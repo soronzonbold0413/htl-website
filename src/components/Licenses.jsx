@@ -143,7 +143,7 @@ export default function Licenses() {
               >
                 <span className="lic-top">
                   <span className="lic-no">{num(i)}</span>
-                  <span className="lic-cat">{x.category}</span>
+                  <span className="lic-cat" data-cat={x.category.toLowerCase()}>{x.category}</span>
                 </span>
                 <span className="lic-ic">
                   <Icon name={x.icon} />
@@ -168,7 +168,7 @@ export default function Licenses() {
                 <Icon name={l.icon} />
               </span>
               <span className="lic-spec">{l.spec}</span>
-              <span className="lic-cat">{l.category}</span>
+              <span className="lic-cat" data-cat={l.category.toLowerCase()}>{l.category}</span>
             </div>
             <div className="lic-dialog-body">
               <div className="eyebrow">Special license</div>

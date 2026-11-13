@@ -49,7 +49,8 @@ Run `npm run build` and upload the **contents** of `dist/` to the `public_html` 
 | Change | File |
 | --- | --- |
 | Text, stats, services, projects, contact info | `src/data.js` |
-| Add a project | add an item to `projects` in `src/data.js`, put photos in `public/img/` |
+| Add a project | add an item to `projects` in `src/data.js`, put photos in `public/img/`; it gets its own page at `/projects/<slug>` |
+| Project page text (overview, facts, highlights) | `details` on the project in `src/data.js` |
 | Replace partner logos | `public/logos/1.png … 21.png` (order = importance) |
 | Background video | replace `public/video/intro-1080.mp4` and `intro-720.mp4` |
 | Colors | `:root` block at the top of `src/styles.css` |

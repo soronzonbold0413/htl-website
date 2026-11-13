@@ -1,3 +1,4 @@
+import Mascot from './components/Mascot.jsx'
 import { useEffect, useState } from 'react'
 import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
@@ -8,7 +9,10 @@ import Partners from './components/Partners.jsx'
 import Contact from './components/Contact.jsx'
 import Lightbox from './components/Lightbox.jsx'
 import AboutPage from './components/AboutPage.jsx'
-import { asset, go, pageHref, useRoute, useScrollOnRoute } from './router.js'
+import ProjectPage from './components/ProjectPage.jsx'
+import ServicePage from './components/ServicePage.jsx'
+import { projects, services } from './data.js'
+import { asset, pageHref, projectSlug, serviceSlug, useRoute, useScrollOnRoute, useTrackSteps } from './router.js'
 
 const titles = {
   home: 'HTL Hi Tech Lab | Telecom, Smart Water, Renewables & Construction',
@@ -19,28 +23,42 @@ export default function App() {
   const page = useRoute()
   const [lightbox, setLightbox] = useState(null) // { images, index }
   useScrollOnRoute(page)
+  const slug = projectSlug(page)
+  const sslug = serviceSlug(page)
+  useTrackSteps(page)
   useEffect(() => {
-    document.title = titles[page]
-  }, [page])
+    const proj = slug && projects.find((p) => p.slug === slug)
+    const svc = sslug && services.find((x) => x.slug === sslug)
+    const name = proj ? proj.title : svc ? svc.title : null
+    document.title = name ? `${name} | HTL Hi Tech Lab` : titles[page] || titles.home
+  }, [page, slug, sslug])
+  const openLightbox = (images, index) => setLightbox({ images, index })
 
   return (
     <>
       <Header page={page} />
       <main key={page}>
-        {page === 'about' ? (
+        {slug ? (
+          <ProjectPage slug={slug} onOpen={openLightbox} />
+        ) : sslug ? (
+          <ServicePage slug={sslug} onOpen={openLightbox} />
+        ) : page === 'about' ? (
           <AboutPage />
         ) : (
           <>
             <Hero />
             <About />
             <Services />
-            <Projects onOpen={(images, index) => setLightbox({ images, index })} />
+            <Projects onOpen={openLightbox} />
             <Partners />
           </>
         )}
         <Contact />
       </main>
       <footer>
+        <div className="peek-wrap" aria-hidden="true">
+          <Mascot pose="peek" />
+        </div>
         <div className="wrap">
           <img src={asset('/htl-logo-white.png')} alt="HTL Hi Tech Lab" />
           <span>© {new Date().getFullYear()} Hi Tech Lab LLC. All rights reserved.</span>

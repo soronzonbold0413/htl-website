@@ -1,17 +1,21 @@
+import Mascot from './Mascot.jsx'
 import { aboutPage, team, about } from '../data.js'
 import { go, pageHref, sectionHref } from '../router.js'
 import Team from './Team.jsx'
 import Licenses from './Licenses.jsx'
+import BackButton from './BackButton.jsx'
 
 export default function AboutPage() {
   return (
     <>
-      <section className="page-hero">
+      <section className="page-hero about-hero">
+        <Mascot pose="peace" />
         <svg className="hexbg" viewBox="0 0 100 100" aria-hidden="true">
           <polygon points="50,2 92,26 92,74 50,98 8,74 8,26" fill="none" stroke="#fff" strokeWidth="2" />
           <polygon points="50,16 80,33 80,67 50,84 20,67 20,33" fill="none" stroke="#fff" strokeWidth="2" />
         </svg>
         <div className="wrap">
+          <BackButton />
           <nav className="crumbs" aria-label="Breadcrumb">
             <a href={pageHref('home')} onClick={(e) => go(e, 'home')}>
               Home
