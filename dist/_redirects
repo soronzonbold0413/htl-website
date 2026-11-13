@@ -1,0 +1,3 @@
+/about        /index.html  200
+/projects/*   /index.html  200
+/services/*   /index.html  200
